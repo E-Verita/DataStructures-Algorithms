@@ -43,7 +43,7 @@ public class MyArrayList {
 		arraySize = newArraySize;
 
 		// 2. izveidot jauno masīvu
-		char[] newArrayForElements = new char[elementCount];
+		char[] newArrayForElements = new char[newArraySize];
 
 		// 3. veikt visu elementu pārkopēšanu jaunajā masīvā
 		for (int i = 0; i < elementCount; i++) {
@@ -62,11 +62,11 @@ public class MyArrayList {
 		}
 
 		// 2. ieliekam jauno elementu pēc pēdējā elementa
-		elements[elementCount] = inputElement;
+		elements[elementCount++] = inputElement;
 		// var arī elements[elementCount++] = inputElement;
 
 		// 3. palielināt elementu skaitu
-		elementCount++;
+
 	}
 
 	public void appendAtIndex(char inputElement, int index) throws Exception {
@@ -90,7 +90,7 @@ public class MyArrayList {
 			else if (index < elementCount) {
 				// veicam elementu kopēšanu, ņēmot vērā index - sākam no aizmugures
 				for (int i = elementCount; i > index; i--) {
-					elements[i + 1] = elements[i];
+					elements[i] = elements[i-1];
 				}
 
 				// ievietojam jauno elementu konkrētajā indexā
@@ -115,7 +115,7 @@ public class MyArrayList {
 		}
 
 		// ja atbilstošs - veikt kopēšanu
-		for (int i = index + 1; i >= elementCount; i++) {
+		for (int i = index + 1; i <= elementCount; i++) {
 			elements[i - 1] = elements[i];
 		}
 		elements[elementCount - 1] = ' ';
@@ -179,7 +179,7 @@ public class MyArrayList {
 				char[] rightNeighbours;
 
 				// ja ir, tad kaimiņu rezultatīvais masīvs būs par vienu šūnu mazāks kā indekss
-				if (indexes[indexes.length] == elementCount) {
+				if (indexes[indexes.length-1] == elementCount-1) {
 					rightNeighbours = new char[indexes.length - 1];
 
 					// ja nav, tad kaimiņu masīva izmērs būs tāds pats kā indeksiem
