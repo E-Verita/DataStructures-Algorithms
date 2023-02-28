@@ -1,22 +1,22 @@
 package datastr;
 
-public class MyArrayList {
-	private char[] elements;
+public class MyArrayListT<T> {
+	private T[] elements;
 	private final int DEFAULT_ARRAY_SIZE = 5;
 	private int arraySize = DEFAULT_ARRAY_SIZE;
 	private int elementCount = 0;
 
 	// konstruktori
 
-	public MyArrayList() {
-		elements = new char[arraySize];
+	public MyArrayListT() {
+		elements = (T[]) new Object[arraySize];
 	}
 
-	public MyArrayList(int inputArraySize) {
+	public MyArrayListT(int inputArraySize) {
 		if (inputArraySize > 0) {
 			arraySize = inputArraySize;
 		}
-		elements = new char[arraySize];
+		elements = (T[]) new Object[arraySize];
 	}
 
 	// TODO: GET&SET
@@ -41,7 +41,7 @@ public class MyArrayList {
 		arraySize = newArraySize;
 
 		// 2. izveidot jauno masīvu
-		char[] newArrayForElements = new char[newArraySize];
+		T[] newArrayForElements = (T[]) new Object[arraySize];
 
 		// 3. veikt visu elementu pārkopēšanu jaunajā masīvā
 		for (int i = 0; i < elementCount; i++) {
@@ -51,7 +51,7 @@ public class MyArrayList {
 		elements = newArrayForElements;
 	}
 
-	public void append(char inputElement) {
+	public void append(T inputElement) {
 		// 1. Pārbauda, vai pilns
 		if (isFull()) {
 
@@ -67,7 +67,7 @@ public class MyArrayList {
 
 	}
 
-	public void appendAtIndex(char inputElement, int index) throws Exception {
+	public void appendAtIndex(T inputElement, int index) throws Exception {
 		// 1. jānoskaidro, vai ir atbilstošs index
 
 		// index ir negatīvs vai lielāks par elementu skaitu +1 - metīsim izņēmumu
@@ -88,7 +88,7 @@ public class MyArrayList {
 			else if (index < elementCount) {
 				// veicam elementu kopēšanu, ņēmot vērā index - sākam no aizmugures
 				for (int i = elementCount; i > index; i--) {
-					elements[i] = elements[i-1];
+					elements[i] = elements[i - 1];
 				}
 
 				// ievietojam jauno elementu konkrētajā indexā
@@ -116,11 +116,11 @@ public class MyArrayList {
 		for (int i = index + 1; i <= elementCount; i++) {
 			elements[i - 1] = elements[i];
 		}
-		elements[elementCount - 1] = ' ';
+		// elements[elementCount - 1] = ' ';
 		elementCount--;
 	}
 
-	public char getElementAtIndex(int index) throws Exception {
+	public T getElementAtIndex(int index) throws Exception {
 		if (isEmpty()) {
 			throw new Exception("Saraksts ir tukšs!");
 		} else if (index < 0 || index >= elementCount) {
@@ -130,29 +130,30 @@ public class MyArrayList {
 		}
 	}
 
-	public int[] search(char inputElement) throws Exception {
+	public int[] search(T inputElement) throws Exception {
 		if (isEmpty()) {
 			throw new Exception("Saraksts ir tukšs!");
 		} else {
 			// Noskaidrot, cik reizes sarakstā var atrast meklēto elementu
 			int count = 0;
 			for (int i = 0; i < elementCount; i++) {
-				if (elements[i] == inputElement) {
+				if (elements[i].equals(inputElement)) {
 					count++;
 				}
 			}
 
 			// Izveido tik lielu masīvu, cik ir atrasto elementu skaits
-			int[] indexes = new int[count];
+			
 
 			if (count == 0) {
 				throw new Exception("Elements nav atrasts!");
 
 			} else {
+				int[] indexes = new int[count];	
 				int j = 0;
 				// aizpilda indexu masīvu, pārmeklējot sarakstu vēlreiz
-				for (int i = 0; i < elements.length; i++) {
-					if (elements[i] == inputElement) {
+				for (int i = 0; i < elementCount; i++) {
+					if (elements[i].equals(inputElement)) {
 						indexes[j++] = i;
 						// j++
 					}
@@ -163,7 +164,7 @@ public class MyArrayList {
 		}
 	}
 
-	public char[] searchForRightNeighbour(char inputElement) throws Exception {
+	public T[] searchForRightNeighbour(T inputElement) throws Exception {
 		if (isEmpty()) {
 			throw new Exception("Saraksts ir tukšs!");
 		} else {
@@ -174,15 +175,15 @@ public class MyArrayList {
 				int[] indexes = search(inputElement);
 
 				// noskaidrojam, vai meklētais simbols nav kā pēdējais
-				char[] rightNeighbours;
+				T[] rightNeighbours;
 
 				// ja ir, tad kaimiņu rezultatīvais masīvs būs par vienu šūnu mazāks kā indekss
-				if (indexes[indexes.length-1] == elementCount-1) {
-					rightNeighbours = new char[indexes.length - 1];
+				if (indexes[indexes.length - 1] == elementCount - 1) {
+					rightNeighbours = (T[]) new Object[indexes.length - 1];
 
 					// ja nav, tad kaimiņu masīva izmērs būs tāds pats kā indeksiem
 				} else {
-					rightNeighbours = new char[indexes.length];
+					rightNeighbours = (T[]) new Object[indexes.length];
 				}
 
 				// izveido masīvu kaimiņiem
@@ -190,7 +191,7 @@ public class MyArrayList {
 				for (int i = 0; i < rightNeighbours.length; i++) {
 
 					int inWhichIndex = indexes[i]; // noskaidrojam meklētā simbola index
-					char rightNeighbourTemp = elements[inWhichIndex + 1]; // dabūjam kaimiņu elementu
+					T rightNeighbourTemp = elements[inWhichIndex + 1]; // dabūjam kaimiņu elementu
 					rightNeighbours[i] = rightNeighbourTemp; // ieleikam kaimiņu elementu masīvā
 				}
 
@@ -216,18 +217,18 @@ public class MyArrayList {
 
 	public void makeEmpty() {
 		arraySize = DEFAULT_ARRAY_SIZE;
-		elements = new char[arraySize];
+		elements = (T[]) new Object[arraySize];
 		elementCount = 0;
 	}
 
-	public char[] sort(SortingType type) throws Exception {
+	public T[] sort(SortingType type) throws Exception {
 		if (isEmpty()) {
 			throw new Exception("Saraksts ir tukšs!");
 		}
 
 		else {
 			// izveidot jaunu masīvu, kuru pēc tam kārtosim
-			char[] sortedArray = new char[elementCount];
+			T[] sortedArray = (T[]) new Object[elementCount];
 
 			// veikt elementu kopēšanu jaunajā masīvā
 			for (int i = 0; i < elementCount; i++) {
@@ -237,28 +238,21 @@ public class MyArrayList {
 			// pārbaude, kādā secībā kārtot
 			// izvēlēties kārtošanas algoritmu, Bubble Sort
 			// realizēt kārtošanas algoritmus abos gadījumos (asc, desc)
-			if (type == SortingType.ASC) {
+			int compareValue = -1;
+			
+			if (type == SortingType.DESC) {
+				compareValue = 1;
+				}
 
 				for (int i = 0; i < sortedArray.length; i++) {
 					for (int j = 0; j < sortedArray.length; j++) {
-						if (sortedArray[i] < sortedArray[j]) {
-							char temp = sortedArray[i];
+						if (((Comparable) sortedArray[i]).compareTo(sortedArray[j]) == compareValue) {
+							T temp = sortedArray[i];
 							sortedArray[i] = sortedArray[j];
 							sortedArray[j] = temp;
 						}
 					}
-				}
-			} else if (type == SortingType.DESC) {
-				for (int i = 0; i < sortedArray.length; i++) {
-					for (int j = 0; j < sortedArray.length; j++) {
-						if (sortedArray[i] > sortedArray[j]) {
-							char temp = sortedArray[i];
-							sortedArray[i] = sortedArray[j];
-							sortedArray[j] = temp;
-						}
-					}
-				}
-			}		
+				}			
 			// atgriezt sakārtoto masīvu
 			return sortedArray;
 		}

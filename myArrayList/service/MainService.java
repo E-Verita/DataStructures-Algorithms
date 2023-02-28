@@ -7,13 +7,13 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 import datastr.MyArrayList;
+import datastr.MyArrayListT;
 import datastr.SortingType;
 
 public class MainService {
 
 	public static void main(String[] args) {
-		System.setProperty("console.encoding", "UTF-8");
-		MyArrayList myList = new MyArrayList();
+		MyArrayListT myList = new MyArrayListT();
 
 		try {
 			myList.append('a');
@@ -43,7 +43,7 @@ public class MainService {
 			myList.append('a');
 			
 			System.out.println("Darbības ar txt:");
-			MyArrayList listFromFile = createListFromFile("resources/numbers.txt");
+			MyArrayListT listFromFile = createListFromFile("resources/numbers.txt");
 			listFromFile.append('š');
 			listFromFile.print();
 			System.out.println("žā");
@@ -54,11 +54,11 @@ public class MainService {
 
 	}
 
-	public static MyArrayList createListFromFile(String pathToFile) throws FileNotFoundException {
+	public static MyArrayListT createListFromFile(String pathToFile) throws FileNotFoundException {
 		File myFile = new File(pathToFile);
 		FileInputStream myStream = new FileInputStream(myFile);
 		Scanner myScanner = new Scanner(myStream);
-		MyArrayList listFromFile = new MyArrayList();
+		MyArrayListT listFromFile = new MyArrayListT();
 
 		while (myScanner.hasNext()) {
 			String line = myScanner.nextLine();
